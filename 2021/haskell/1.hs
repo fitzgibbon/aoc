@@ -1,4 +1,4 @@
-import System.IO
+import Data.List
 
 readInput :: IO [Char]
 readInput = readFile "1.input"
@@ -6,10 +6,15 @@ readInput = readFile "1.input"
 getDepths :: [Char] -> [Int]
 getDepths input = read <$> (lines input)
 
-countIncrements :: [Int] -> Int
-countIncrements (x:xs) = fst $ foldr (\y (c, prev) -> (if y <= prev then c + 1 else c, y)) (0, x) xs
+countInc :: [Int] -> Int
+countInc [] = 0
+countInc (x:xs) = fst $ foldl' (\(c, p) y -> (c + if y > p then 1 else 0, y)) (0, x) xs
+
+windowed :: Int -> [a] -> [[a]]
+windowed width ls = if width > length ls then [] else (take width ls) : windowed width (drop 1 ls)
 
 main :: IO ()
 main = do
   input <- readInput
-  print $ (countIncrements . getDepths) input
+  print $ (countInc . getDepths) input
+  print $ (countInc . (map sum) . (windowed 3) . getDepths) input
