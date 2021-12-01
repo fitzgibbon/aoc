@@ -1,0 +1,5 @@
+executables:
+  1:
+    main: 1.hs
+dependencies:
+  - base
