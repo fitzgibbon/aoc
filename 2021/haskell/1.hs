@@ -4,7 +4,7 @@ readInput :: IO [Char]
 readInput = readFile "1.input"
 
 getDepths :: [Char] -> [Int]
-getDepths input = read <$> (lines input)
+getDepths = (map read) . lines
 
 countInc :: [Int] -> Int
 countInc [] = 0
