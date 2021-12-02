@@ -4,7 +4,7 @@ readInput :: IO [Char]
 readInput = readFile "1.input"
 
 getDepths :: [Char] -> [Int]
-getDepths = (map read) . lines
+getDepths = map read . words
 
 countInc :: [Int] -> Int
 countInc [] = 0
@@ -16,5 +16,5 @@ windowed width ls = if width > length ls then [] else (take width ls) : windowed
 main :: IO ()
 main = do
   input <- readInput
-  print $ (countInc . getDepths) input
-  print $ (countInc . (map sum) . (windowed 3) . getDepths) input
+  print $ countInc . getDepths $ input
+  print $ countInc . map sum . windowed 3 . getDepths $ input
