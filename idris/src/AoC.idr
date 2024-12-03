@@ -9,11 +9,3 @@ getInput year day = do
                 pure Nothing
          putStrLn input
          pure $ Just input
-
-main : IO ()
-main = do
-     putStrLn "Hello AoC!"
-     dir <- currentDir
-     putStrLn $ show dir
-     input <- getInput 2023 1
-     putStrLn $ show input

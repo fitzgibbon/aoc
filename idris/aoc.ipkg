@@ -13,16 +13,16 @@ authors = "Niall FitzGibbon"
 -- langversion
 
 -- packages to add to search path
--- depends =
+depends = collie
 
 -- modules to install
--- modules =
+modules = AoC
 
 -- main file (i.e. file to load at REPL)
--- main =
+main = Main
 
 -- name of executable
--- executable =
+executable = aoc
 -- opts =
 sourcedir = "src"
 -- builddir =
