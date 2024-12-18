@@ -25,11 +25,15 @@ aoc = MkCommand
              , arguments = lotsOf nat
              }
 
+runProblem : Nat -> Nat -> Nat -> IO ()
+runProblem year day problem = putStrLn "Running problem \{show problem} for December \{show day} \{show year}"
+
 handle : Main.aoc ~~> IO ()
 handle = [ const $ putStrLn aoc.usage
          , "--help" ::= [ const $ putStrLn aoc.usage ]
          , "run" ::= [ \args => case args.arguments of
-                                     Just n => putStrLn "\{show n}"
+                                     Just [year, day, problem] => runProblem year day problem
+                                     Just xs => putStrLn "Other list: \{show xs}"
                                      Nothing => putStrLn "No arguments." ]
          ]
 
