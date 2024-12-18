@@ -9,18 +9,33 @@ import AoC
 %hide Data.Record.SmartConstructors.infix.(::=)
 
 aoc : Command "aoc"
-aoc = basic "Advent of Code: Idris" (lotsOf nat)
+aoc = MkCommand 
+    { description = "Advent of Code"
+    , subcommands = [ "--help" ::= basic "Show usage." none
+                    , "run" ::= runCmd
+                    ]
+    , modifiers = []
+    , arguments = none
+    } where
+      runCmd : Command "run"
+      runCmd = MkCommand
+             { description = "Run a problem"
+             , subcommands = []
+             , modifiers = []
+             , arguments = lotsOf nat
+             }
+
+handle : Main.aoc ~~> IO ()
+handle = [ const $ putStrLn aoc.usage
+         , "--help" ::= [ const $ putStrLn aoc.usage ]
+         , "run" ::= [ \args => case args.arguments of
+                                     Just n => putStrLn "\{show n}"
+                                     Nothing => putStrLn "No arguments." ]
+         ]
 
 {nm : String} -> {cmd : Command nm} -> Show (ParseTreeT f g cmd) where
-  show (Here x) = "\{nm} <<args>>"
+  show (Here x) = "\{nm} <args>"
   show (There pos parsedSub) = "\{nm} \{show parsedSub}"
 
 main : IO ()
-main = do
-     putStrLn "Hello AoC!"
-     dir <- currentDir
-     putStrLn $ show dir
-     Right cmdParse <- aoc.parseArgs
-     | Left err => putStrLn "Error: \{err}"
-     input <- getInput 2023 1
-     putStrLn "Parsed as: \{show cmdParse}"
+main = aoc.handleWith handle
