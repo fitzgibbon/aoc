@@ -1,0 +1,3 @@
+[submodule "collie"]
+	path = idris-dependencies/collie
+	url = git@github.com:ohad/collie.git
